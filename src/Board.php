@@ -51,8 +51,6 @@ final class Board
         }
         $board[$this->ant_y - 1][$this->ant_x - 1] = $char;
     }
-
-
     public function move_ant()
     {
         if($this->get_ant_position_cell() == '-')
@@ -63,9 +61,18 @@ final class Board
             $prev_dir_y = $this->ant_direction_y;
             $this->ant_direction_x = -$prev_dir_y;
             $this->ant_direction_y = $prev_dir_x;
-            $this->ant_x += $this->ant_direction_x;
-            $this->ant_y += $this->ant_direction_y;
         }
+        else if($this->get_ant_position_cell() == '*')
+        {
+            $this->set_ant_position($this->board, '-');
+
+            $prev_dir_x = $this->ant_direction_x;
+            $prev_dir_y = $this->ant_direction_y;
+            $this->ant_direction_x = $prev_dir_y;
+            $this->ant_direction_y = -$prev_dir_x;
+        }
+        $this->ant_x += $this->ant_direction_x;
+        $this->ant_y += $this->ant_direction_y;
     }
 
     public function print()
