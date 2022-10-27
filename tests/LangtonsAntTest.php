@@ -20,4 +20,77 @@ final class LangtonsAntTest extends TestCase
 
         assertEquals($result, $board->print());
     }
+
+    public function testCanPrintInitialAnt(): void
+    {
+        $board = new Board(5, 6);
+        $board->set_ant(3, 3);
+        $result = <<<EOS
+        -----
+        -----
+        --a--
+        -----
+        -----
+        -----
+        EOS;
+
+        assertEquals($result, $board->print());
+    }
+
+    public function testCanPrintAntFirstMove(): void
+    {
+        $board = new Board(5, 6);
+        $board->set_ant(3, 3);
+        $board->move_ant();
+        $result = <<<EOS
+        -----
+        --a--
+        --*--
+        -----
+        -----
+        -----
+        EOS;
+
+        assertEquals($result, $board->print());
+    }
+    
+    public function testCanPrintAntSecondMove(): void
+    {
+        $board = new Board(5, 6);
+        $board->set_ant(3, 3);
+        $board->move_ant();
+        $board->move_ant();
+
+        $result = <<<EOS
+        -----
+        --*a-
+        --*--
+        -----
+        -----
+        -----
+        EOS;
+
+        assertEquals($result, $board->print());
+    }
+
+    public function testCanPrintAntThirdMove(): void
+    {
+        $board = new Board(5, 6);
+        $board->set_ant(3, 3);
+        $board->move_ant();
+        $board->move_ant();
+        $board->move_ant();
+
+        $result = <<<EOS
+        -----
+        --**-
+        --*a-
+        -----
+        -----
+        -----
+        EOS;
+
+        assertEquals($result, $board->print());
+    }
+
 }
