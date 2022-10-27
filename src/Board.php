@@ -5,8 +5,8 @@ final class Board
     private int $y;
     private int $ant_x = 0;
     private int $ant_y = 0;
-    private int $ant_direction_x;
-    private int $ant_direction_y;
+    private int $ant_direction_x = 0;
+    private int $ant_direction_y = 0;
     private array $board = [];
 
     public function __construct(int $x, int $y)
@@ -34,16 +34,30 @@ final class Board
         return $this->ant_x > 0 && $this->ant_y > 0;
     }
 
-    public function move_ant()
+    private function get_ant_position_cell()
     {
         if(!$this->is_ant_set())
         {
             return;
         }
+        return $this->board[$this->ant_y - 1][$this->ant_x - 1];
+    }
 
-        if($this->board[$this->ant_y - 1][$this->ant_x - 1] == '-')
+    private function set_ant_position(&$board, $char)
+    {        
+        if(!$this->is_ant_set())
         {
-            $this->board[$this->ant_y - 1][$this->ant_x - 1] = '*';
+            return;
+        }
+        $board[$this->ant_y - 1][$this->ant_x - 1] = $char;
+    }
+
+
+    public function move_ant()
+    {
+        if($this->get_ant_position_cell() == '-')
+        {
+            $this->set_ant_position($this->board, '*');
 
             $prev_dir_x = $this->ant_direction_x;
             $prev_dir_y = $this->ant_direction_y;
@@ -57,12 +71,7 @@ final class Board
     public function print()
     {
         $board_for_print = $this->board;
-
-        if($this->is_ant_set())
-        {
-            $board_for_print[$this->ant_y - 1][$this->ant_x - 1] = 'a';
-        }
-
+        $this->set_ant_position($board_for_print, 'a');
         return implode(PHP_EOL, $board_for_print);
     }
 }
