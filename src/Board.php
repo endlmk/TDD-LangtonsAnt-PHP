@@ -51,6 +51,20 @@ final class Board
         }
         $board[$this->ant_y - 1][$this->ant_x - 1] = $char;
     }
+
+    private static function edge($val, $min, $max)
+    {
+        if($val > $max)
+        {
+            return $min;
+        }
+        else if($val < $min)
+        {
+            return $max;
+        }
+        return $val;
+    }
+
     public function move_ant()
     {
         if($this->get_ant_position_cell() == '-')
@@ -73,6 +87,8 @@ final class Board
         }
         $this->ant_x += $this->ant_direction_x;
         $this->ant_y += $this->ant_direction_y;
+        $this->ant_x = $this->edge($this->ant_x, 1, $this->x);
+        $this->ant_y = $this->edge($this->ant_y, 1, $this->y);
     }
 
     public function print()
@@ -80,5 +96,16 @@ final class Board
         $board_for_print = $this->board;
         $this->set_ant_position($board_for_print, 'a');
         return implode(PHP_EOL, $board_for_print);
+    }
+
+    public function show()
+    {
+        while(true)
+        {
+            echo chr(27).chr(91).'H'.chr(27).chr(91).'J';
+            echo $this->print();
+            usleep(100000);
+            $this->move_ant();
+        }
     }
 }

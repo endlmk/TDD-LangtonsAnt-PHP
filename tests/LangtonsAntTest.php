@@ -159,4 +159,24 @@ final class LangtonsAntTest extends TestCase
         assertEquals($result, $board->print());
     }
 
+    public function testCanPrintAntOutOfBound(): void
+    {
+        $board = new Board(5, 6);
+        $board->set_ant(3, 3);
+        for($i = 0; $i < 26; $i++)
+        {
+            $board->move_ant();
+        }
+            
+        $result = <<<EOS
+        -----
+        --**-
+        -*---
+        a*-**
+        --**-
+        ---**
+        EOS;
+
+        assertEquals($result, $board->print());
+    }
 }
